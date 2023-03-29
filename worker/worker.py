@@ -25,8 +25,8 @@ with io.open(path, encoding='utf-8') as f:
 print('corpus length:', len(text))
 chars = sorted(list(set(text)))
 print('total chars:', len(chars))
-char_indices = dict((c, i) for i, c in enumerate(chars))
-indices_char = dict((i, c) for i, c in enumerate(chars))
+char_indices = {c: i for i, c in enumerate(chars)}
+indices_char = dict(enumerate(chars))
 
 def sample(preds, temperature=1.0):
     preds = np.asarray(preds).astype('float64')
@@ -41,9 +41,9 @@ def inference(params_dict, *args):
     seed = params_dict['seed']
     seed = seed.lower()
     while len(seed) != maxlen:
-        seed = ' ' + seed
+        seed = f' {seed}'
     generated = seed
-    for i in range(400):
+    for _ in range(400):
         x_pred = np.zeros((1, maxlen, len(chars)))
         for t, char in enumerate(seed):
             x_pred[0, t, char_indices[char]] = 1.

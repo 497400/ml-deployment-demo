@@ -13,8 +13,7 @@ mlq = MLQ('deploy_demo', 'localhost', 6379, 0)
 
 @app.route('/api/check_progress/<job_id>')
 def check_progress(job_id):
-    progress = mlq.get_progress(job_id)
-    return progress
+    return mlq.get_progress(job_id)
 
 @app.route('/api/result/<job_id>')
 def get_result(job_id):
@@ -25,5 +24,6 @@ def get_result(job_id):
 def enqueue_job():
     """e.g. curl https://exploitip.com/api/enqueue?seed=a%20seed%20sentence
     enqueues a job and returns its id"""
-    job_id = mlq.post({'seed': request.args.get('seed', 'Some random text instead ')})
-    return job_id
+    return mlq.post(
+        {'seed': request.args.get('seed', 'Some random text instead ')}
+    )
